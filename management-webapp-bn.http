@@ -1,0 +1,6 @@
+@management_webapp_bn_HostAddress = http://localhost:5163
+
+GET {{management_webapp_bn_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

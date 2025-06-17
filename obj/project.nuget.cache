@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "tJXo+9t28f8=",
+  "success": true,
+  "projectFilePath": "E:\\projectBro\\management-webapp-bn\\management-webapp-bn\\management-webapp-bn.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Pawee\\.nuget\\packages\\microsoft.aspnetcore.openapi\\9.0.5\\microsoft.aspnetcore.openapi.9.0.5.nupkg.sha512",
+    "C:\\Users\\Pawee\\.nuget\\packages\\microsoft.openapi\\1.6.17\\microsoft.openapi.1.6.17.nupkg.sha512"
+  ],
+  "logs": []
+}
