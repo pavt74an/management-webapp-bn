@@ -165,3 +165,4 @@ E:\projectBro\management-webapp-bn\management-webapp-bn\obj\Debug\net9.0\refint\
 E:\projectBro\management-webapp-bn\management-webapp-bn\obj\Debug\net9.0\management-webapp-bn.pdb
 E:\projectBro\management-webapp-bn\management-webapp-bn\obj\Debug\net9.0\management-webapp-bn.genruntimeconfig.cache
 E:\projectBro\management-webapp-bn\management-webapp-bn\obj\Debug\net9.0\ref\management-webapp-bn.dll
+E:\projectBro\management-webapp-bn\management-webapp-bn\bin\Debug\net9.0\BCrypt.Net-Next.dll

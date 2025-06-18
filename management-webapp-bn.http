@@ -1,6 +1,28 @@
 @management_webapp_bn_HostAddress = http://localhost:5163
 
-GET {{management_webapp_bn_HostAddress}}/weatherforecast/
-Accept: application/json
+### create permission
+POST {{management_webapp_bn_HostAddress}}/api/permissions
+Content-Type: application/json
 
-###
+{
+  "permissionId": "PERM003",
+  "permissionName": "Delete"
+}
+
+
+### Get all permission
+GET {{management_webapp_bn_HostAddress}}/api/permissions
+
+
+### Create Role
+POST {{management_webapp_bn_HostAddress}}/api/roles
+Content-Type: application/json
+
+{
+  "roleId": "ROLE004",
+  "roleName": "Employee"
+}
+
+
+### Get All Roles
+GET {{management_webapp_bn_HostAddress}}/api/roles

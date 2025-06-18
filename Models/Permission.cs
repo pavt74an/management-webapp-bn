@@ -4,6 +4,6 @@
     {
         public string permissionId { get; set; }
         public string permissionName { get; set; }
-        public ICollection<UserPermission> UserPermissions { get; set; }
+        public ICollection<UserPermission>? UserPermissions { get; set; }
     }
 }

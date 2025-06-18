@@ -1,6 +1,6 @@
-﻿namespace management_webapp_bn.Models
+﻿namespace management_webapp_bn.DTOs
 {
-    public class Users
+    public class UserDto
     {
         public string Id { get; set; }
         public string FirstName { get; set; }
@@ -9,9 +9,7 @@
         public string? Phone { get; set; }
         public string RoleId { get; set; }
         public string Username { get; set; }
-        public string Password { get; set; }
-        public Role Role { get; set; }
-        public ICollection<UserPermission> Permissions { get; set; }
-
+        public string RoleName { get; set; }
+        public List<UserPermissionDto> Permissions { get; set; } = new List<UserPermissionDto>();
     }
 }
