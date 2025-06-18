@@ -1,28 +1,416 @@
 @management_webapp_bn_HostAddress = http://localhost:5163
 
-### create permission
+###################################################
+################### PERMISSIONS ###################
+###################################################
+
+### Create Permission - User Management Module
+POST {{management_webapp_bn_HostAddress}}/api/permissions
+Content-Type: application/json
+
+{
+  "permissionId": "PERM001",
+  "permissionName": "User Management"
+}
+
+### Create Permission - Report Analytics Module
+POST {{management_webapp_bn_HostAddress}}/api/permissions
+Content-Type: application/json
+
+{
+  "permissionId": "PERM002",
+  "permissionName": "Report Analytics"
+}
+
+### Create Permission - System Configuration Module
 POST {{management_webapp_bn_HostAddress}}/api/permissions
 Content-Type: application/json
 
 {
   "permissionId": "PERM003",
-  "permissionName": "Delete"
+  "permissionName": "System Configuration"
 }
 
+### Create Permission - Financial Operations Module
+POST {{management_webapp_bn_HostAddress}}/api/permissions
+Content-Type: application/json
 
-### Get all permission
+{
+  "permissionId": "PERM004",
+  "permissionName": "Financial Operations"
+}
+
+### Create Permission - Inventory Control Module
+POST {{management_webapp_bn_HostAddress}}/api/permissions
+Content-Type: application/json
+
+{
+  "permissionId": "PERM005",
+  "permissionName": "Inventory Control"
+}
+
+### Create Permission - Customer Relations Module
+POST {{management_webapp_bn_HostAddress}}/api/permissions
+Content-Type: application/json
+
+{
+  "permissionId": "PERM006",
+  "permissionName": "Customer Relations"
+}
+
+### Create Permission - Product Catalog Module
+POST {{management_webapp_bn_HostAddress}}/api/permissions
+Content-Type: application/json
+
+{
+  "permissionId": "PERM007",
+  "permissionName": "Product Catalog"
+}
+
+### Get All Permissions
 GET {{management_webapp_bn_HostAddress}}/api/permissions
 
+###################################################
+####################### ROLES #####################
+###################################################
 
-### Create Role
+### Create System Administrator Role
+POST {{management_webapp_bn_HostAddress}}/api/roles
+Content-Type: application/json
+
+{
+  "roleId": "ROLE001",
+  "roleName": "System Administrator"
+}
+
+### Create Operations Manager Role
+POST {{management_webapp_bn_HostAddress}}/api/roles
+Content-Type: application/json
+
+{
+  "roleId": "ROLE002",
+  "roleName": "Operations Manager"
+}
+
+### Create Sales Executive Role
+POST {{management_webapp_bn_HostAddress}}/api/roles
+Content-Type: application/json
+
+{
+  "roleId": "ROLE003",
+  "roleName": "Sales Executive"
+}
+
+### Create Financial Analyst Role
 POST {{management_webapp_bn_HostAddress}}/api/roles
 Content-Type: application/json
 
 {
   "roleId": "ROLE004",
-  "roleName": "Employee"
+  "roleName": "Financial Analyst"
 }
 
+### Create Warehouse Supervisor Role
+POST {{management_webapp_bn_HostAddress}}/api/roles
+Content-Type: application/json
+
+{
+  "roleId": "ROLE005",
+  "roleName": "Warehouse Supervisor"
+}
+
+### Create Customer Service Representative Role
+POST {{management_webapp_bn_HostAddress}}/api/roles
+Content-Type: application/json
+
+{
+  "roleId": "ROLE006",
+  "roleName": "Customer Service Representative"
+}
 
 ### Get All Roles
 GET {{management_webapp_bn_HostAddress}}/api/roles
+
+###################################################
+####################### USERS #####################
+###################################################
+
+### Get Users DataTable (with pagination, search, sorting)
+POST {{management_webapp_bn_HostAddress}}/api/users/DataTable
+Content-Type: application/json
+
+{
+    "orderBy": "firstName",
+    "orderDirection": "asc",
+    "pageNumber": "1",
+    "pageSize": "10",
+    "search": ""
+}
+
+### Get Users DataTable with Search
+POST {{management_webapp_bn_HostAddress}}/api/users/DataTable
+Content-Type: application/json
+
+{
+    "orderBy": "email",
+    "orderDirection": "desc",
+    "pageNumber": "1",
+    "pageSize": "5",
+    "search": "anderson"
+}
+
+### Get User By Id
+GET {{management_webapp_bn_HostAddress}}/api/users/USR001
+
+### Create System Administrator User
+POST {{management_webapp_bn_HostAddress}}/api/users
+Content-Type: application/json
+
+{
+    "id": "USR001",
+    "firstName": "Alexander",
+    "lastName": "Anderson",
+    "email": "alex.anderson@techcorp.com",
+    "phone": "02-555-0101",
+    "roleId": "ROLE001",
+    "username": "alex.anderson",
+    "password": "TechAdmin2024!",
+    "permission": [
+        {
+            "permissionId": "PERM001",
+            "isReadable": true,
+            "isWritable": true,
+            "isDeletable": true
+        },
+        {
+            "permissionId": "PERM002",
+            "isReadable": true,
+            "isWritable": true,
+            "isDeletable": true
+        },
+        {
+            "permissionId": "PERM003",
+            "isReadable": true,
+            "isWritable": true,
+            "isDeletable": true
+        },
+        {
+            "permissionId": "PERM004",
+            "isReadable": true,
+            "isWritable": true,
+            "isDeletable": false
+        }
+    ]
+}
+
+### Create Operations Manager User
+POST {{management_webapp_bn_HostAddress}}/api/users
+Content-Type: application/json
+
+{
+    "id": "USR002",
+    "firstName": "Sophia",
+    "lastName": "Chen",
+    "email": "sophia.chen@techcorp.com",
+    "phone": "02-555-0102",
+    "roleId": "ROLE002",
+    "username": "sophia.chen",
+    "password": "OpsManager2024!",
+    "permission": [
+        {
+            "permissionId": "PERM001",
+            "isReadable": true,
+            "isWritable": true,
+            "isDeletable": false
+        },
+        {
+            "permissionId": "PERM002",
+            "isReadable": true,
+            "isWritable": true,
+            "isDeletable": false
+        },
+        {
+            "permissionId": "PERM005",
+            "isReadable": true,
+            "isWritable": true,
+            "isDeletable": false
+        },
+        {
+            "permissionId": "PERM006",
+            "isReadable": true,
+            "isWritable": true,
+            "isDeletable": false
+        }
+    ]
+}
+
+### Create Sales Executive User
+POST {{management_webapp_bn_HostAddress}}/api/users
+Content-Type: application/json
+
+{
+    "id": "USR003",
+    "firstName": "Marcus",
+    "lastName": "Rodriguez",
+    "email": "marcus.rodriguez@techcorp.com",
+    "phone": "02-555-0103",
+    "roleId": "ROLE003",
+    "username": "marcus.rodriguez",
+    "password": "SalesExec2024!",
+    "permission": [
+        {
+            "permissionId": "PERM006",
+            "isReadable": true,
+            "isWritable": true,
+            "isDeletable": false
+        },
+        {
+            "permissionId": "PERM007",
+            "isReadable": true,
+            "isWritable": true,
+            "isDeletable": false
+        },
+        {
+            "permissionId": "PERM002",
+            "isReadable": true,
+            "isWritable": false,
+            "isDeletable": false
+        }
+    ]
+}
+
+### Create Financial Analyst User
+POST {{management_webapp_bn_HostAddress}}/api/users
+Content-Type: application/json
+
+{
+    "id": "USR004",
+    "firstName": "Isabella",
+    "lastName": "Thompson",
+    "email": "isabella.thompson@techcorp.com",
+    "phone": null,
+    "roleId": "ROLE004",
+    "username": "isabella.thompson",
+    "password": "FinAnalyst2024!",
+    "permission": [
+        {
+            "permissionId": "PERM004",
+            "isReadable": true,
+            "isWritable": true,
+            "isDeletable": false
+        },
+        {
+            "permissionId": "PERM002",
+            "isReadable": true,
+            "isWritable": true,
+            "isDeletable": false
+        }
+    ]
+}
+
+### Create Warehouse Supervisor User
+POST {{management_webapp_bn_HostAddress}}/api/users
+Content-Type: application/json
+
+{
+    "id": "USR005",
+    "firstName": "James",
+    "lastName": "Mitchell",
+    "email": "james.mitchell@techcorp.com",
+    "phone": "02-555-0105",
+    "roleId": "ROLE005",
+    "username": "james.mitchell",
+    "password": "Warehouse2024!",
+    "permission": [
+        {
+            "permissionId": "PERM005",
+            "isReadable": true,
+            "isWritable": true,
+            "isDeletable": false
+        },
+        {
+            "permissionId": "PERM007",
+            "isReadable": true,
+            "isWritable": false,
+            "isDeletable": false
+        }
+    ]
+}
+
+### Create Customer Service Representative User
+POST {{management_webapp_bn_HostAddress}}/api/users
+Content-Type: application/json
+
+{
+    "id": "USR006",
+    "firstName": "Emma",
+    "lastName": "Williams",
+    "email": "emma.williams@techcorp.com",
+    "phone": "02-555-0106",
+    "roleId": "ROLE006",
+    "username": "emma.williams",
+    "password": "CustService2024!",
+    "permission": [
+        {
+            "permissionId": "PERM006",
+            "isReadable": true,
+            "isWritable": true,
+            "isDeletable": false
+        },
+        {
+            "permissionId": "PERM007",
+            "isReadable": true,
+            "isWritable": false,
+            "isDeletable": false
+        }
+    ]
+}
+
+### Update User - Promote Sales Executive to Operations Manager
+PUT {{management_webapp_bn_HostAddress}}/api/users/USR003
+Content-Type: application/json
+
+{
+    "firstName": "Marcus",
+    "lastName": "Rodriguez",
+    "email": "marcus.rodriguez@techcorp.com",
+    "phone": "02-555-0103",
+    "roleId": "ROLE002",
+    "username": "marcus.rodriguez",
+    "password": "OpsManager2024!",
+    "permission": [
+        {
+            "permissionId": "PERM001",
+            "isReadable": true,
+            "isWritable": false,
+            "isDeletable": false
+        },
+        {
+            "permissionId": "PERM002",
+            "isReadable": true,
+            "isWritable": true,
+            "isDeletable": false
+        },
+        {
+            "permissionId": "PERM005",
+            "isReadable": true,
+            "isWritable": true,
+            "isDeletable": false
+        },
+        {
+            "permissionId": "PERM006",
+            "isReadable": true,
+            "isWritable": true,
+            "isDeletable": false
+        },
+        {
+            "permissionId": "PERM007",
+            "isReadable": true,
+            "isWritable": true,
+            "isDeletable": false
+        }
+    ]
+}
+
+### Delete User - Remove temporary Customer Service Rep
+DELETE {{management_webapp_bn_HostAddress}}/api/users/USR006

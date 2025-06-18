@@ -26,7 +26,7 @@ namespace management_webapp_bn.Controllers
             {
                 permissionId = dto.PermissionId,
                 permissionName = dto.PermissionName,
-                UserPermissions = new List<UserPermission>() // ป้องกัน null error
+                UserPermissions = new List<UserPermission>()
             };
 
             var createdPermission = await _permissionService.CreatePermissionAsync(permission);
