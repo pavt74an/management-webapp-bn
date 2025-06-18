@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "lBtUwxPxTaVFLetPhCQcNyTXfEEOeT/9Zm8YZvZdGzE=",
+  "Source": "management-webapp-bn",
+  "BasePath": "_content/management-webapp-bn",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}
