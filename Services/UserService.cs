@@ -14,6 +14,7 @@ namespace management_webapp_bn.Services
         {
             _context = context;
         }
+
         public async Task<object> GetUsersDataTableAsync(DataTableRequestDto request)
         {
             var query = _context.Users
@@ -44,12 +45,15 @@ namespace management_webapp_bn.Services
                     "lastname" => isDescending ? query.OrderByDescending(u => u.LastName) : query.OrderBy(u => u.LastName),
                     "email" => isDescending ? query.OrderByDescending(u => u.Email) : query.OrderBy(u => u.Email),
                     "username" => isDescending ? query.OrderByDescending(u => u.Username) : query.OrderBy(u => u.Username),
-                    _ => isDescending ? query.OrderByDescending(u => u.Id) : query.OrderBy(u => u.Id)
+                    "createdate" => isDescending ? query.OrderByDescending(u => u.CreatedAt) : query.OrderBy(u => u.CreatedAt),
+                    "createddate" => isDescending ? query.OrderByDescending(u => u.CreatedAt) : query.OrderBy(u => u.CreatedAt),
+                    "createdat" => isDescending ? query.OrderByDescending(u => u.CreatedAt) : query.OrderBy(u => u.CreatedAt),
+                    _ => isDescending ? query.OrderByDescending(u => u.CreatedAt) : query.OrderBy(u => u.CreatedAt) // Default sort by created date
                 };
             }
             else
             {
-                query = query.OrderBy(u => u.Id);
+                query = query.OrderByDescending(u => u.CreatedAt); // Default: newest first
             }
 
             // Get total count before pagination
@@ -76,9 +80,11 @@ namespace management_webapp_bn.Services
                     },
                     Username = u.Username,
                     Password = u.Password,
+                    CreatedAt = u.CreatedAt,
+                    UpdatedAt = u.UpdatedAt,
                     Permission = u.Permissions.Select(up => new UserPermissionViewDto
                     {
-                        PermissionId = up.PermissionId, // ใช้ existing PermissionId
+                        PermissionId = up.PermissionId,
                         PermissionName = up.Permission != null ? up.Permission.permissionName : "",
                         IsReadable = up.IsReadable,
                         IsWritable = up.IsWritable,
@@ -122,10 +128,12 @@ namespace management_webapp_bn.Services
                 },
                 Username = user.Username,
                 Password = user.Password,
+                CreatedAt = user.CreatedAt,
+                UpdatedAt = user.UpdatedAt,
                 Permission = user.Permissions.Select(up => new UserPermissionViewDto
                 {
-                    PermissionId = up.PermissionId, // ใช้ existing PermissionId
-                    PermissionName = up.Permission?.permissionName ?? "", // แสดง permissionName ถ้าไม่อยากให้แสดงก็ลบ
+                    PermissionId = up.PermissionId,
+                    PermissionName = up.Permission?.permissionName ?? "",
                     IsReadable = up.IsReadable,
                     IsWritable = up.IsWritable,
                     IsDeletable = up.IsDeletable
@@ -151,17 +159,21 @@ namespace management_webapp_bn.Services
                 throw new ArgumentException("Role not found");
             }
 
+            var currentTime = DateTime.UtcNow;
+
             // Create new user
             var user = new Users
             {
-                Id = request.Id,
+                Id = request.Id ?? Guid.NewGuid().ToString(), // Auto-generate if not provided
                 FirstName = request.FirstName,
                 LastName = request.LastName,
                 Email = request.Email,
                 Phone = request?.Phone,
                 RoleId = request.RoleId,
                 Username = request.Username,
-                Password = request.Password // Note: In production, hash the password
+                Password = request.Password, // Note: In production, hash the password
+                CreatedAt = currentTime,
+                UpdatedAt = currentTime
             };
 
             _context.Users.Add(user);
@@ -182,9 +194,9 @@ namespace management_webapp_bn.Services
                     {
                         userPermissions.Add(new UserPermission
                         {
-                            Id = Guid.NewGuid().ToString(), // Auto-generate UserPermission ID
+                            Id = Guid.NewGuid().ToString(),
                             UserId = user.Id,
-                            PermissionId = permDto.PermissionId, // Use existing Permission ID
+                            PermissionId = permDto.PermissionId,
                             IsReadable = permDto.IsReadable,
                             IsWritable = permDto.IsWritable,
                             IsDeletable = permDto.IsDeletable
@@ -192,7 +204,6 @@ namespace management_webapp_bn.Services
                     }
                     else
                     {
-                        // Log if permission not found
                         Console.WriteLine($"Permission {permDto.PermissionId} not found");
                     }
                 }
@@ -208,10 +219,12 @@ namespace management_webapp_bn.Services
             var createdUser = await _context.Users
                 .Include(u => u.Role)
                 .Include(u => u.Permissions)
+                    .ThenInclude(up => up.Permission)
                 .FirstOrDefaultAsync(u => u.Id == user.Id);
 
             return new
             {
+                id = createdUser.Id,
                 firstName = createdUser.FirstName,
                 lastName = createdUser.LastName,
                 email = createdUser.Email,
@@ -223,11 +236,15 @@ namespace management_webapp_bn.Services
                 },
                 username = createdUser.Username,
                 password = createdUser.Password,
+                createdAt = createdUser.CreatedAt,
+                updatedAt = createdUser.UpdatedAt,
                 permission = createdUser.Permissions.Select(p => new
                 {
-                    permissionId = p.PermissionId ,
-                    permissionName = p.Permission?.permissionName ?? ""
-
+                    permissionId = p.PermissionId,
+                    permissionName = p.Permission?.permissionName ?? "",
+                    isReadable = p.IsReadable,
+                    isWritable = p.IsWritable,
+                    isDeletable = p.IsDeletable
                 }).ToList()
             };
         }
@@ -265,6 +282,8 @@ namespace management_webapp_bn.Services
             user.RoleId = request.RoleId;
             user.Username = request.Username;
             user.Password = request.Password; // Note: In production, hash the password
+            user.UpdatedAt = DateTime.UtcNow; // Update the timestamp
+            // Note: CreatedAt remains unchanged
 
             // Remove existing permissions
             _context.UserPermissions.RemoveRange(user.Permissions);
@@ -284,9 +303,9 @@ namespace management_webapp_bn.Services
                     {
                         userPermissions.Add(new UserPermission
                         {
-                            Id = Guid.NewGuid().ToString(), // Auto-generate UserPermission ID
+                            Id = Guid.NewGuid().ToString(),
                             UserId = user.Id,
-                            PermissionId = permDto.PermissionId, // Use existing Permission ID
+                            PermissionId = permDto.PermissionId,
                             IsReadable = permDto.IsReadable,
                             IsWritable = permDto.IsWritable,
                             IsDeletable = permDto.IsDeletable
@@ -294,7 +313,6 @@ namespace management_webapp_bn.Services
                     }
                     else
                     {
-                        // Log if permission not found
                         Console.WriteLine($"Permission {permDto.PermissionId} not found");
                     }
                 }
@@ -311,10 +329,12 @@ namespace management_webapp_bn.Services
             var updatedUser = await _context.Users
                 .Include(u => u.Role)
                 .Include(u => u.Permissions)
+                    .ThenInclude(up => up.Permission)
                 .FirstOrDefaultAsync(u => u.Id == user.Id);
 
             return new
             {
+                id = updatedUser.Id,
                 firstName = updatedUser.FirstName,
                 lastName = updatedUser.LastName,
                 email = updatedUser.Email,
@@ -326,9 +346,11 @@ namespace management_webapp_bn.Services
                 },
                 username = updatedUser.Username,
                 password = updatedUser.Password,
+                createdAt = updatedUser.CreatedAt,
+                updatedAt = updatedUser.UpdatedAt,
                 permission = updatedUser.Permissions.Select(p => new
                 {
-                    permissionId = p.PermissionId, 
+                    permissionId = p.PermissionId,
                     permissionName = p.Permission?.permissionName ?? "",
                     isReadable = p.IsReadable,
                     isWritable = p.IsWritable,

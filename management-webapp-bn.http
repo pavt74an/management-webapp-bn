@@ -80,7 +80,7 @@ Content-Type: application/json
 
 {
   "roleId": "ROLE001",
-  "roleName": "System Administrator"
+  "roleName": "Super Admin"
 }
 
 ### Create Operations Manager Role
@@ -89,7 +89,7 @@ Content-Type: application/json
 
 {
   "roleId": "ROLE002",
-  "roleName": "Operations Manager"
+  "roleName": "Admin"
 }
 
 ### Create Sales Executive Role
@@ -98,7 +98,7 @@ Content-Type: application/json
 
 {
   "roleId": "ROLE003",
-  "roleName": "Sales Executive"
+  "roleName": "HR Admin"
 }
 
 ### Create Financial Analyst Role
@@ -107,25 +107,7 @@ Content-Type: application/json
 
 {
   "roleId": "ROLE004",
-  "roleName": "Financial Analyst"
-}
-
-### Create Warehouse Supervisor Role
-POST {{management_webapp_bn_HostAddress}}/api/roles
-Content-Type: application/json
-
-{
-  "roleId": "ROLE005",
-  "roleName": "Warehouse Supervisor"
-}
-
-### Create Customer Service Representative Role
-POST {{management_webapp_bn_HostAddress}}/api/roles
-Content-Type: application/json
-
-{
-  "roleId": "ROLE006",
-  "roleName": "Customer Service Representative"
+  "roleName": "Employee"
 }
 
 ### Get All Roles
