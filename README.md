@@ -2,7 +2,7 @@
 
 ASP.NET Core 9.0 Web API with Entity Framework and SQL Server for user management system.
 
-## ??? Technology Stack
+##  Technology Stack
 
 - .NET 9.0
 - ASP.NET Core Web API
@@ -10,7 +10,7 @@ ASP.NET Core 9.0 Web API with Entity Framework and SQL Server for user managemen
 - SQL Server (LocalDB)
 - BCrypt.Net for password hashing
 
-## ??? Database Configuration
+## Database Configuration
 
 ```json
 "ConnectionStrings": {
@@ -22,7 +22,7 @@ ASP.NET Core 9.0 Web API with Entity Framework and SQL Server for user managemen
 - `{your_server}` - Your SQL Server instance (e.g., `(localdb)\\MSSQLLocalDB`)
 - `{your_database_name}` - Your database name
 
-## ?? API Endpoints
+##  API Endpoints
 
 ### Permissions API
 - `GET /api/permissions` - Get all permissions
@@ -39,13 +39,13 @@ ASP.NET Core 9.0 Web API with Entity Framework and SQL Server for user managemen
 - `DELETE /api/users/{id}` - Delete user
 - `POST /api/users/DataTable` - Get paginated users with search/sort
 
-## ?? Prerequisites
+## Prerequisites
 
 - .NET 9.0 SDK
 - SQL Server LocalDB
 - Visual Studio 2022 (recommended)
 
-## ?? Running the API
+##  Running the API
 
 ```bash
 # Restore packages
@@ -62,7 +62,7 @@ dotnet run
 - HTTP: `http://localhost:5163`
 - HTTPS: `https://localhost:7166`
 
-## ?? API Examples
+## API Examples
 
 ### Create User
 ```http
@@ -130,7 +130,7 @@ Content-Type: application/json
 }
 ```
 
-## ?? Features
+##  Features
 
 - **CRUD Operations** for Users, Roles, and Permissions
 - **Password Hashing** with BCrypt
